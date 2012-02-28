@@ -15,7 +15,7 @@ This is currently alpha software but this example is what I'm aiming for.
     from linode import Api
 
 
-    linode = Api('your_api_key')
-    linode.create(datacenter_id, plan_id, payment_term)
-    linode.disk.createfromdistribution(linode_id, distribution_id, label, size, root_pass, root_ssh_key)
+    api = Api('your_api_key')
+    api.linode.create(datacenter_id, plan_id, payment_term)
+    api.linode.disk.createfromdistribution(linode_id, distribution_id, label, size, root_pass, root_ssh_key)
 
