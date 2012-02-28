@@ -1,8 +1,15 @@
 from .base import Base
+from .config import Config
+from .ip import Ip
 
 
 class Linode(Base):
     namespace = 'linode.'
+
+    def __init__(self, api_key):
+        super(Linode, self).__init__(api_key)
+        self.ip = Ip(self.api_key, self.namespace)
+        self.config = Config(self.api_key, self.namespace)
 
     # TODO: learn decorators
     # @payment_term
