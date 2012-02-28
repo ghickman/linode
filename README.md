@@ -10,6 +10,8 @@ A python wrapper for the Linode's API that attempts to act just like the [Linode
 
 ## Usage
 
+This is currently alpha software but this example is what I'm aiming for.
+
     from linode import Api
 
 
