@@ -5,6 +5,12 @@ __license__ = 'MIT'
 
 __version__ = (0, 0, 1)
 
+
+# Module namespace.
+
 def get_version():
     return '.'.join(map(str, __version__))
+
+from .api import Api
+__all__ = ('Api',)
 
