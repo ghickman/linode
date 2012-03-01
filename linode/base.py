@@ -1,4 +1,11 @@
+import json
+
 import requests
+
+
+class LinodeException(Exception):
+    def __init__(self, error_array):
+        print 'Error: {0}'.format(error_array[0]['ERRORMESSAGE'])
 
 
 class Base(object):
@@ -9,8 +16,20 @@ class Base(object):
         if parent_namespace:
             self.namespace = parent_namespace + self.namespace
 
-    def request(self, action, **kwargs):
+    def build_kwargs(self, clean_locals):
+        clean_locals.pop('self')
+        return {local.replace('_', ''): clean_locals[local]
+                for local in clean_locals if clean_locals[local]}
+
+    def request(self, action, func_locals):
+        kwargs = self.build_kwargs(func_locals)
         payload = {'api_key': self.api_key, 'api_action': action}
-        payload.update(kwargs)
-        return requests.post(self.endpoint, data=payload)
+        payload.update(**kwargs)
+        r = requests.post(self.endpoint, data=payload)
+        if r.status_code == requests.codes.ok:
+            content = json.loads(r.content)
+            if content['ERRORARRAY']:
+                print content
+                raise LinodeException(content['ERRORARRAY'])
+            return content['DATA']
 

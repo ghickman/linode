@@ -1,3 +1,4 @@
+from .domain import Domain
 from .linode import Linode
 
 
@@ -8,5 +9,6 @@ class Api(object):
     """
 
     def __init__(self, api_key):
+        self.domain = Domain(api_key)
         self.linode = Linode(api_key)
 
