@@ -33,9 +33,7 @@ class Linode(Base):
 
     def list(self, linode_id=None):
         api_action = self.namespace + 'list'
-        r = self.request(api_action)
-        print r.status_code
-        print r.content
+        return self.request(api_action, locals())
 
     def reboot(self, linode_id, config_id=None):
         """
