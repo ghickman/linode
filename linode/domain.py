@@ -36,25 +36,29 @@ class Domain(Base):
         super(Domain, self).__init__(api_key)
         self.resource = Resource(self.api_key, self.namespace)
 
-    def create(self, domain, type, soa_email, description='', refresh_sec=0,
-               retry_sec=0, expire_sec=0, ttl_sec=0, status=1, master_ips=''):
+    def create(self, domain, type, soa_email=None, description=None,
+               refresh_sec=None, retry_sec=None, expire_sec=None, ttl_sec=None,
+               status=None, master_ips=None):
         """
         Errors: NOACCESS,VALIDATION
         """
-        pass
+        api_action = self.namespace + 'create'
+        return self.request(api_action, locals())
 
-    def delete(self, domain_id):
+    def delete(self, domainid):
         """
         Errors: NOTFOUND
         """
-        pass
+        api_action = self.namespace + 'delete'
+        return self.request(api_action, locals())
 
-    def list(self, domain_id=None):
+    def list(self, domainid=None):
         api_action = self.namespace + 'list'
         return self.request(api_action, locals())
 
-    def update(self, domain_id, domain=None, description=None, type=None,
+    def update(self, domainid, domain=None, description=None, type=None,
                soa_email=None, refresh_sec=None, retry_sec=None, expire_sec=None,
                ttl_sec=None, status=None, master_ips=None):
-        pass
+        api_action = self.namespace + 'update'
+        return self.request(api_action, locals())
 
