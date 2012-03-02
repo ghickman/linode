@@ -4,8 +4,8 @@ import requests
 
 
 class LinodeException(Exception):
-    def __init__(self, error_array):
-        print 'Error: {0}'.format(error_array[0]['ERRORMESSAGE'])
+    def __init__(self, action, error_array):
+        print '[{0}] {1}'.format(action, error_array[0]['ERRORMESSAGE'])
 
 
 class Base(object):
@@ -29,7 +29,6 @@ class Base(object):
         if r.status_code == requests.codes.ok:
             content = json.loads(r.content)
             if content['ERRORARRAY']:
-                print content
-                raise LinodeException(content['ERRORARRAY'])
+                raise LinodeException(content['ACTION'], content['ERRORARRAY'])
             return content['DATA']
 
