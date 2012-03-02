@@ -16,13 +16,17 @@ class Base(object):
         if parent_namespace:
             self.namespace = parent_namespace + self.namespace
 
-    def build_kwargs(self, clean_locals):
+    def build_api_kwargs(self, clean_locals):
+        """
+        Build the api kwargs dict by removing any None variables so
+        the API doesn't think we're trying to set them.
+        """
         clean_locals.pop('self')
-        return {local.replace('_', ''): clean_locals[local]
-                for local in clean_locals if clean_locals[local]}
+        return {local: clean_locals[local] for local in clean_locals
+                                 if clean_locals[local] is not None}
 
     def request(self, action, func_locals):
-        kwargs = self.build_kwargs(func_locals)
+        kwargs = self.build_api_kwargs(func_locals)
         payload = {'api_key': self.api_key, 'api_action': action}
         payload.update(**kwargs)
         r = requests.post(self.endpoint, data=payload)
