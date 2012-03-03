@@ -4,29 +4,32 @@ from .base import Base
 class Resource(Base):
     namespace = 'resource.'
 
-    def create(self, domain_id, type, name='', target='', priority=10, weight=5,
-               port=80, protocol='udp', ttl_sec=0):
+    def create(self, domainid, type, name=None, target=None, priority=None,
+               weight=None, port=None, protocol=None, ttl_sec=None):
         """
         Errors: NOACCESS,VALIDATION
         """
-        pass
+        api_action = self.namespace + 'create'
+        return self.request(api_action, locals())
 
-    def delete(self, domain_id, resource_id):
+    def delete(self, domainid, resourceid):
         """
         Errors: NOTFOUND
         """
-        pass
+        api_action = self.namespace + 'delete'
+        return self.request(api_action, locals())
 
-    def list(self, domain_id, resource_id=None):
+    def list(self, domainid, resourceid=None):
         api_action = self.namespace + 'list'
         return self.request(api_action, locals())
 
-    def update(self, domain_id, resource_id, name=None, target=None, priority=None,
+    def update(self, domainid, resourceid, name=None, target=None, priority=None,
                weight=None, port=None, protocol=None, ttl_sec=None):
         """
         Errors: NOTFOUND,VALIDATION
         """
-        pass
+        api_action = self.namespace + 'update'
+        return self.request(api_action, locals())
 
 
 class Domain(Base):
