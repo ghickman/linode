@@ -1,5 +1,6 @@
 from .domain import Domain
 from .linode import Linode
+from .stackscript import Stackscript
 from .utility import Account, Avail
 
 
@@ -14,4 +15,5 @@ class Api(object):
         self.avail = Avail(api_key)
         self.domain = Domain(api_key)
         self.linode = Linode(api_key)
+        self.stackscript = Stackscript(api_key)
 
