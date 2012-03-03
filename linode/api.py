@@ -1,6 +1,6 @@
 from .domain import Domain
 from .linode import Linode
-from .utils import Account, Avail
+from .utility import Account, Avail
 
 
 class Api(object):
