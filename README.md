@@ -16,6 +16,17 @@ This is currently alpha software but this example is what I'm aiming for.
 
 
     api = Api('your_api_key')
-    api.linode.create(datacenter_id, plan_id, payment_term)
-    api.linode.disk.createfromdistribution(linode_id, distribution_id, label, size, root_pass, root_ssh_key)
+    api.linode.create(datacenterid, planid, paymentterm)
+    api.linode.disk.createfromdistribution(linodeid, distributionid, label, size, rootpass, rootsshkey)
+
+
+## Caveats
+
+Any changes to the Linode docs.
+
+### Variable Casing
+All variables have been lower cased. The Linode API is case insensitive so this is not a true change from their docs at least.
+
+### Variable Order
+Required variables have been declared as positional arguments and optional variables as keyword arguments with a default of `None`. This means *all* optional arguments must come after required ones.
 
