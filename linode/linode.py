@@ -102,7 +102,7 @@ class Linode(Base):
         api_action = self.namespace + 'boot'
         return self.request(api_action, locals())
 
-    def create(self, datacenterid, plan_d, paymentterm):
+    def create(self, datacenterid, planid, paymentterm):
         api_action = self.namespace + 'create'
         return self.request(api_action, locals())
 
