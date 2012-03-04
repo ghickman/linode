@@ -3,6 +3,8 @@ A thin python wrapper around [Linode's API](http://linode.com/api). Built with t
 
 This is currently untested alpha software.
 
+[![Build Status](https://secure.travis-ci.org/ghickman/linode.png?branch=master)](http://travis-ci.org/ghickman/linode)
+
 
 ## Installation
 
