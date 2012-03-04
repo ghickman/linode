@@ -1,5 +1,7 @@
-# Python Linode API Wrapper
-A python wrapper for the Linode's API that attempts to act just like the [Linode API](http://linode.com/api/linode) Docs say it will while being pythonic.
+# Linode API Python Bindings
+A thin python wrapper around [Linode's API](http://linode.com/api). Built with the idea of sticking to Linode's docs and being pythonic.
+
+This is currently untested alpha software.
 
 
 ## Installation
@@ -8,13 +10,16 @@ A python wrapper for the Linode's API that attempts to act just like the [Linode
 
 
 ## Usage
-This is currently alpha software but this example is what I'm aiming for.
 
     from linode import Api
 
     api = Api('your_api_key')
     api.linode.create(datacenterid, planid, paymentterm)
     api.linode.disk.createfromdistribution(linodeid, distributionid, label, size, rootpass, rootsshkey)
+
+
+## Tests
+Coming Soon!
 
 
 ## Caveats
