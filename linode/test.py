@@ -3,7 +3,7 @@ from unittest import TestCase
 from warnings import catch_warnings
 
 from mock import patch
-from nose.tools import assert_equal, assert_is_not_none, assert_raises
+from nose.tools import assert_equal, assert_raises, assert_true
 import requests
 
 from .api import Api, LinodeException, Worker
@@ -77,8 +77,8 @@ class ApiTest(BaseTest):
 class WorkerTest(BaseTest):
     def test_worker_instantiated_with_path_and_klass(self):
         worker = self.api.linode
-        assert_is_not_none(worker.klass)
-        assert_is_not_none(worker.path)
+        assert_true(worker.klass)
+        assert_true(worker.path)
         assert_equal(worker.klass.__class__.__name__, 'Api')
         assert_equal(worker.path, ['linode'])
 
