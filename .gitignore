@@ -1,3 +1,4 @@
 *.py[co]
 dist
 *.egg-info
+nosy.cfg
