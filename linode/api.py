@@ -1,4 +1,5 @@
 import json
+from sys import stderr
 from warnings import warn
 
 import requests
@@ -8,7 +9,7 @@ from .params import params
 
 class LinodeException(Exception):
     def __init__(self, action, error_array):
-        print '[{0}] {1}'.format(action, error_array[0]['ERRORMESSAGE'])
+        stderr.write('[{0}] {1}'.format(action, error_array[0].get('ERRORMESSAGE')))
 
 
 class Worker(object):
