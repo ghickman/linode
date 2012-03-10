@@ -9,7 +9,8 @@ from .params import params
 
 class LinodeException(Exception):
     def __init__(self, action, error_array):
-        stderr.write('[{0}] {1}'.format(action, error_array[0].get('ERRORMESSAGE')))
+        for err in error_array:
+            stderr.write('[{0}] {1}'.format(action, err.get('ERRORMESSAGE')))
 
 
 class Worker(object):
