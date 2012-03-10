@@ -1,4 +1,5 @@
 from unittest import TestCase
+from warnings import catch_warnings
 
 from mock import patch
 from nose.tools import assert_equal, assert_is_not_none, assert_raises
@@ -31,7 +32,10 @@ class ApiKwargsTest(BaseTest):
         assert_equal(actual_kwargs, ideal_kwargs)
 
     def test_passing_args_when_only_optional_args_are_allowed(self):
-        assert_raises(SyntaxWarning, self.api._build_api_kwargs, 'linode.list', 'herp')
+        with catch_warnings(record=True) as w:
+            self.api._build_api_kwargs('linode.list', 'herp')
+            assert len(w) == 1
+            assert issubclass(w[-1].category, SyntaxWarning)
 
     def test_passing_too_many_arguments(self):
         assert_raises(TypeError, self.api._build_api_kwargs, 'linode.create',
