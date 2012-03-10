@@ -6,9 +6,7 @@ from mock import patch
 from nose.tools import assert_equal, assert_is_not_none, assert_raises
 import requests
 
-from linode import Api
-from linode.api import LinodeException
-from linode.api import Worker
+from .api import Api, LinodeException, Worker
 
 
 class Post(object):
