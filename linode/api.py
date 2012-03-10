@@ -52,9 +52,9 @@ class Api(object):
         r = requests.post(self.endpoint, data=payload)
         if r.status_code == requests.codes.ok:
             content = json.loads(r.content)
-            if content['ERRORARRAY']:
-                raise LinodeException(content['ACTION'], content['ERRORARRAY'])
-            return content['DATA']
+            if content.get('ERRORARRAY'):
+                raise LinodeException(content.get('ACTION'), content.get('ERRORARRAY'))
+            return content.get('DATA')
 
     def _worker_func(self, path, *args, **kwargs):
         "Function called at the end of the "
