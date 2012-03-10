@@ -1,5 +1,3 @@
-import contextlib
-import sys
 from unittest import TestCase
 from warnings import catch_warnings
 
@@ -10,16 +8,6 @@ from linode import Api
 from linode.api import LinodeException
 from linode.api import Worker
 from linode.tests.mock_requests import bad_post
-
-
-@contextlib.contextmanager
-def no_stderr():
-    savestderr = sys.stderr
-    class Devnull(object):
-        def write(self, _): pass
-    sys.stderr = Devnull()
-    yield
-    sys.stderr = savestderr
 
 
 class BaseTest(TestCase):
@@ -62,12 +50,10 @@ class ApiTest(BaseTest):
         assert_equal(type(self.api._api_key), type(str()))
         assert_equal(type(self.api.linode), Worker)
 
-    @no_stderr
     @patch('requests.post', new=bad_post)
     def test_linode_exception_raised_when_error_returned(self):
         payload = {'api_key': self.api._api_key, 'api_action': 'linode.create'}
-        with no_stderr():
-            assert_raises(LinodeException, self.api._request, payload)
+        assert_raises(LinodeException, self.api._request, payload)
 
 
 class WorkerTest(BaseTest):
