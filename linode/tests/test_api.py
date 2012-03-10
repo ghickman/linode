@@ -1,13 +1,33 @@
+import json
 from unittest import TestCase
 from warnings import catch_warnings
 
 from mock import patch
 from nose.tools import assert_equal, assert_is_not_none, assert_raises
+import requests
 
 from linode import Api
 from linode.api import LinodeException
 from linode.api import Worker
-from linode.tests.mock_requests import bad_post
+
+
+class Post(object):
+    """Mock requests' Response object when called from requests.post"""
+    def __init__(self, action, bad=False):
+        content = {'ACTION': action, 'DATA': ''}
+        self.status_code = requests.codes.ok
+        if bad:
+            content['ERRORARRAY'] = [{'ERRORCODE': 4, 'ERRORMESSAGE': 'oh noes'}]
+        self.content = json.dumps(content)
+
+
+def bad_post(url, data=None, **kwargs):
+    return Post(data['api_action'], bad=True)
+
+
+def good_post(url, data=None, **kwargs):
+    return Post(data['api_action'])
+requests.post = good_post
 
 
 class BaseTest(TestCase):

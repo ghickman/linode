@@ -1,4 +1,3 @@
 git+git://github.com/mkwiatkowski/pinocchio.git#egg=pinocchio
-minimock
 mock
 requests
