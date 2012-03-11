@@ -21,7 +21,7 @@ This is currently untested alpha software.
 
 
 ## Tests
-Coming Soon!
+I has them.
 
 
 ## Caveats
