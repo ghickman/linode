@@ -1,4 +1,6 @@
+import contextlib
 import json
+import sys
 from unittest import TestCase
 from warnings import catch_warnings
 
@@ -26,6 +28,20 @@ def bad_post(url, data=None, **kwargs):
 def good_post(url, data=None, **kwargs):
     return Post(data['api_action'])
 requests.post = good_post
+
+
+@contextlib.contextmanager
+def nostderr():
+    """
+    Courtesy of Alex Martelli:
+    http://stackoverflow.com/questions/1809958/hide-stderr-output-in-unit-tests/1810086#1810086
+    """
+    savestderr = sys.stderr
+    class Devnull(object):
+        def write(self, _): pass
+    sys.stderr = Devnull()
+    yield
+    sys.stderr = savestderr
 
 
 class BaseTest(TestCase):
@@ -71,7 +87,8 @@ class ApiTest(BaseTest):
     @patch('requests.post', new=bad_post)
     def test_linode_exception_raised_when_error_returned(self):
         payload = {'api_key': self.api._api_key, 'api_action': 'linode.create'}
-        assert_raises(LinodeException, self.api._request, payload)
+        with nostderr():
+            assert_raises(LinodeException, self.api._request, payload)
 
 
 class WorkerTest(BaseTest):
