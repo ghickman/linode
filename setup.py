@@ -12,7 +12,7 @@ setup(
     name = 'linode',
     version = get_version(),
     description = 'Python wrapper of the Linode API',
-    long_description = fread('README.md'),
+    long_description = fread('README.rst'),
     author = 'George Hickman',
     author_email = 'george@ghickman.co.uk',
     url = 'http://github.com/ghickman/linode',
