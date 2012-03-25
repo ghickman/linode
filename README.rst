@@ -3,8 +3,6 @@ Linode API Python Bindings
 
 A thin python wrapper around `Linode's API`_. Built with the idea of sticking to Linode's docs and being pythonic.
 
-This is currently untested alpha software.
-
 .. image:: https://secure.travis-ci.org/ghickman/linode.png?branch=master
 
 Installation
