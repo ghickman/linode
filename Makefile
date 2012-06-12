@@ -4,5 +4,5 @@ release:
 	python setup.py register sdist upload
 
 test:
-	nosetests
+	nosetests --with-spec
 
