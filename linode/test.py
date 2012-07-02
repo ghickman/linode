@@ -67,7 +67,7 @@ class ApiKwargsTest(BaseTest):
 
     def test_passing_args_when_only_optional_args_are_allowed(self):
         with catch_warnings(record=True) as w:
-            self.api._build_api_kwargs('linode.list', 'herp')
+            assert_raises(TypeError, self.api._build_api_kwargs, 'linode.list', 'herp')
             assert len(w) == 1
             assert issubclass(w[-1].category, SyntaxWarning)
 
