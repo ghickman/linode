@@ -40,14 +40,18 @@ class Api(object):
 
     def _build_api_kwargs(self, action, *args, **kwargs):
         if args:
-            api_params = [p for p in reversed(params[action])]
             try:
-                kwargs.update(dict([(api_params.pop(), arg) for arg in args]))
-            except IndexError:
-                raise TypeError('Too many arguments for {0}'.format(action))
+                action_params = list(params[action])
             except KeyError:
+                action_params = []
                 warn('{0} only takes optional arguments. Non-keywords arguments '
                      'will be ignored.'.format(action), SyntaxWarning)
+
+            try:
+                kwargs.update(dict([(action_params.pop(0), arg) for arg in args]))
+            except IndexError:
+                raise TypeError('Too many arguments for {0}'.format(action))
+
         kwargs.update({'api_key': self._api_key, 'api_action': action})
         return kwargs
 
