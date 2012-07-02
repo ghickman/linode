@@ -60,7 +60,7 @@ class Api(object):
             return content.get('DATA')
 
     def _worker_func(self, path, *args, **kwargs):
-        "Function called at the end of the "
+        "Function called at the end of the object chain"
         action = '.'.join(path)
         api_kwargs = self._build_api_kwargs(action, *args, **kwargs)
         return self._request(api_kwargs)
