@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='linode',
-    version='0.2',
+    version='0.3',
     description='Python wrapper of the Linode API',
     long_description=open('README.rst').read(),
     author='George Hickman',
