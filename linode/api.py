@@ -40,8 +40,9 @@ class Api(object):
 
     def _build_api_kwargs(self, action, *args, **kwargs):
         if args:
+            api_params = [p for p in reversed(params[action])]
             try:
-                kwargs.update(dict([(params[action].pop(), arg) for arg in args]))
+                kwargs.update(dict([(api_params.pop(), arg) for arg in args]))
             except IndexError:
                 raise TypeError('Too many arguments for {0}'.format(action))
             except KeyError:
