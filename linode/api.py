@@ -58,7 +58,7 @@ class Api(object):
     def _request(self, payload):
         r = requests.post(self.endpoint, data=payload)
         if r.status_code == requests.codes.ok:
-            content = json.loads(r.content)
+            content = json.loads(r.text)
             if content.get('ERRORARRAY'):
                 raise LinodeException(content.get('ACTION'), content.get('ERRORARRAY'))
             return content.get('DATA')
