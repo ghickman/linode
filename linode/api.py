@@ -1,4 +1,3 @@
-import json
 import sys
 from warnings import warn
 
