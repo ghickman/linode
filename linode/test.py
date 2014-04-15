@@ -18,7 +18,10 @@ class Post(object):
         self.status_code = requests.codes.ok
         if bad:
             content['ERRORARRAY'] = [{'ERRORCODE': 4, 'ERRORMESSAGE': 'oh noes'}]
-        self.content = json.dumps(content)
+        self.content = content
+
+    def json(self):
+        return json.loads(json.dumps(self.content))
 
 
 def bad_post(url, data=None, **kwargs):
