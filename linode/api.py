@@ -1,4 +1,3 @@
-import json
 import sys
 from warnings import warn
 
@@ -58,7 +57,7 @@ class Api(object):
     def _request(self, payload):
         r = requests.post(self.endpoint, data=payload)
         if r.status_code == requests.codes.ok:
-            content = json.loads(r.content)
+            content = r.json()
             if content.get('ERRORARRAY'):
                 raise LinodeException(content.get('ACTION'), content.get('ERRORARRAY'))
             return content.get('DATA')
