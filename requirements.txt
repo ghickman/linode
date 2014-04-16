@@ -1,4 +1,3 @@
 mock
-nose
-pinocchio
+pytest
 requests

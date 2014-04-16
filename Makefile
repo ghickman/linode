@@ -5,4 +5,4 @@ release:
 	python setup.py register bdist_wheel upload
 
 test:
-	nosetests --with-spec
+	py.test

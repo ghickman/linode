@@ -1,14 +1,13 @@
 import contextlib
 import json
 import sys
-from unittest import TestCase
-from warnings import catch_warnings
+import warnings
 
 from mock import patch
-from nose.tools import assert_equal, assert_raises, assert_true
+from pytest import raises
 import requests
 
-from .api import Api, LinodeException, Worker
+from linode.api import Api, LinodeException, Worker
 
 
 class Post(object):
@@ -40,71 +39,73 @@ def nostderr():
     http://stackoverflow.com/questions/1809958/hide-stderr-output-in-unit-tests/1810086#1810086
     """
     savestderr = sys.stderr
+
     class Devnull(object):
-        def write(self, _): pass
+        def write(self, _):
+            pass
+
     sys.stderr = Devnull()
     yield
     sys.stderr = savestderr
 
 
-class BaseTest(TestCase):
-    def __init__(self, *args, **kwargs):
-        super(BaseTest, self).__init__(*args, **kwargs)
-        self.api = Api('api_key')
+class Base(object):
+    api = Api('api_key')
 
 
-class ApiKwargsTest(BaseTest):
+class TestApiKwargs(Base):
     def test_args_are_converted_to_kwargs(self):
         action = 'linode.boot'
         ideal_kwargs = {'api_key': self.api._api_key, 'api_action': action,
                         'linodeid': 'herp'}
         actual_kwargs = self.api._build_api_kwargs(action, 'herp')
-        assert_equal(actual_kwargs, ideal_kwargs)
+        assert actual_kwargs == ideal_kwargs
 
     def test_kwargs_are_passed_into_api_kwargs(self):
         action = 'avail.distributions'
         ideal_kwargs = {'api_key': self.api._api_key, 'api_action': action,
                         'distributionid': 1}
         actual_kwargs = self.api._build_api_kwargs(action, distributionid=1)
-        assert_equal(actual_kwargs, ideal_kwargs)
+        assert actual_kwargs == ideal_kwargs
 
     def test_passing_args_when_only_optional_args_are_allowed(self):
-        with catch_warnings(record=True) as w:
-            assert_raises(TypeError, self.api._build_api_kwargs, 'linode.list', 'herp')
+        with warnings.catch_warnings(record=True) as w:
+            with raises(TypeError):
+                self.api._build_api_kwargs('linode.list', 'herp')
             assert len(w) == 1
             assert issubclass(w[-1].category, SyntaxWarning)
 
     def test_passing_too_many_arguments(self):
-        assert_raises(TypeError, self.api._build_api_kwargs, 'linode.create',
-                      'herp', 'derp', 'foo', 'bar')
+        with raises(TypeError):
+            args = ('herp', 'derp', 'foo', 'bar')
+            self.api._build_api_kwargs('linode.create', *args)
 
 
-class ApiTest(BaseTest):
+class TestApi(Base):
     def test_instantiate_api_without_key_throws_exception(self):
-        assert_raises(Exception, Api)
+        with raises(Exception):
+            Api()
 
     def test_getattr_returns_worker_class(self):
-        assert_equal(type(self.api._api_key), type(str()))
-        assert_equal(type(self.api.linode), Worker)
+        assert type(self.api._api_key) == type(str())
+        assert type(self.api.linode) == Worker
 
     @patch('requests.post', new=bad_post)
     def test_linode_exception_raised_when_error_returned(self):
         payload = {'api_key': self.api._api_key, 'api_action': 'linode.create'}
-        with nostderr():
-            assert_raises(LinodeException, self.api._request, payload)
+        with nostderr(), raises(LinodeException):
+            self.api._request(payload)
 
 
-class WorkerTest(BaseTest):
+class TestWorker(Base):
     def test_worker_instantiated_with_path_and_klass(self):
         worker = self.api.linode
-        assert_true(worker.klass)
-        assert_true(worker.path)
-        assert_equal(worker.klass.__class__.__name__, 'Api')
-        assert_equal(worker.path, ['linode'])
+        assert worker.klass
+        assert worker.path
+        assert worker.klass.__class__.__name__ == 'Api'
+        assert worker.path == ['linode']
 
     def test_sub_worker_path_built_from_action(self):
         worker = self.api.linode.disk
-        assert_equal(worker.klass.__class__.__name__, 'Api')
-        assert_equal(worker.path, ['linode', 'disk'])
-
-
+        assert worker.klass.__class__.__name__ == 'Api'
+        assert worker.path == ['linode', 'disk']
