@@ -93,8 +93,9 @@ class TestApi(Base):
     @patch('requests.post', new=bad_post)
     def test_linode_exception_raised_when_error_returned(self):
         payload = {'api_key': self.api._api_key, 'api_action': 'linode.create'}
-        with nostderr(), raises(LinodeException):
-            self.api._request(payload)
+        with nostderr():
+            with raises(LinodeException):
+                self.api._request(payload)
 
 
 class TestWorker(Base):
