@@ -1,52 +1,15 @@
-params = {
-    'account.estimateinvoice': ['mode'],
-    'domain.create': ['domain', 'type'],
-    'domain.delete': ['domainid'],
-    'domain.update': ['domainid'],
-    'domain.resource.create': ['domainid', 'type'],
-    'domain.resource.delete': ['domainid', 'resourceid'],
-    'domain.resource.list': ['domainid'],
-    'domain.resource.update': ['domainid', 'resourceid'],
-    'linode.boot': ['linodeid'],
-    'linode.clone': ['linodeid', 'datacenterid', 'planid'],
-    'linode.create': ['datacenterid', 'planid', 'paymentterm'],
-    'linode.delete': ['linodeid'],
-    'linode.reboot': ['linodeid'],
-    'linode.resize': ['linodeid', 'planid'],
-    'linode.shutdown': ['linodeid'],
-    'linode.update': ['linodeid'],
-    'linode.config.create': ['linodeid', 'kernelid', 'label'],
-    'linode.config.delete': ['linodeid', 'configid'],
-    'linode.config.list': ['linodeid'],
-    'linode.config.update': ['linodeid', 'cnofigid'],
-    'linode.disk.create': ['linodeid', 'label', 'type', 'size', 'stackscriptrevid', 'stackscriptudf_json'],
-    'linode.disk.createfromdistribution': ['linodeid', 'distributionid', 'label', 'size', 'rootpass'],
-    'linode.disk.createstackscript': ['linodeid', 'stackscriptid', 'stackscriptudfresponses', 'distributionid', 'label', 'size', 'rootpass'],
-    'linode.disk.delete': ['linodeid', 'diskid'],
-    'linode.disk.duplicate': ['linodeid', 'diskid'],
-    'linode.disk.list': ['linodeid'],
-    'linode.disk.resize': ['linodeid', 'diskid', 'size'],
-    'linode.disk.update': ['linodeid', 'diskid'],
-    'linode.ip.addprivate': ['linodeid'],
-    'linode.ip.addpublic': ['linodeid'],
-    'linode.ip.list': ['linodeid'],
-    'linode.ip.setrdns': ['ipaddressid', 'hostname'],
-    'linode.ip.swap': ['ipaddressid'],
-    'linode.job.list': ['linodeid'],
-    'nodebalancer.create': ['datacenterid', 'paymentterm'],
-    'nodebalancer.delete': ['nodebalancerid'],
-    'nodebalancer.update': ['nodebalancerid'],
-    'nodebalancer.config.create': ['nodebalancerid'],
-    'nodebalancer.config.delete': ['configid'],
-    'nodebalancer.config.list': ['nodebalancerid'],
-    'nodebalancer.config.update': ['configid'],
-    'nodebalancer.node.create': ['configid', 'label', 'address'],
-    'nodebalancer.node.delete': ['nodeid'],
-    'nodebalancer.node.list': ['configid'],
-    'nodebalancer.node.update': ['nodeid'],
-    'stackscript.create': ['label', 'distributionidlist', 'script'],
-    'stackscript.delete': ['stackscriptid'],
-    'stackscript.update': ['stackscriptid'],
-    'user.getapikey': ['username', 'password'],
-}
+import requests
 
+
+def get_required_params(api_url):
+    url = '{}/?api_action=api.spec'.format(api_url)
+    r = requests.get(url)
+    if not r.ok:
+        raise
+
+    required = {}
+    for method, params in r.json()['DATA']['METHODS'].items():
+        req = [x[0].lower() for x in filter(lambda x: x[1], params['PARAMETERS'].items())]
+        required[method.lower()] = req
+
+    return required

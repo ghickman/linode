@@ -3,7 +3,7 @@ from warnings import warn
 
 import requests
 
-from .params import params
+from .params import get_required_params
 
 
 class LinodeException(Exception):
@@ -33,6 +33,7 @@ class Api(object):
 
     def __init__(self, api_key):
         self._api_key = api_key
+        self._params = get_required_params(self.endpoint)
 
     def __getattr__(self, name):
         return Worker(self, [name])
@@ -40,7 +41,7 @@ class Api(object):
     def _build_api_kwargs(self, action, *args, **kwargs):
         if args:
             try:
-                action_params = list(params[action])
+                action_params = list(self._params[action])
             except KeyError:
                 action_params = []
                 warn('{0} only takes optional arguments. Non-keywords arguments '
