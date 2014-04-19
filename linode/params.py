@@ -1,4 +1,5 @@
 params = {
+    'account.estimateinvoice': ['mode'],
     'domain.create': ['domain', 'type'],
     'domain.delete': ['domainid'],
     'domain.update': ['domainid'],
@@ -7,6 +8,7 @@ params = {
     'domain.resource.list': ['domainid'],
     'domain.resource.update': ['domainid', 'resourceid'],
     'linode.boot': ['linodeid'],
+    'linode.clone': ['linodeid', 'datacenterid', 'planid'],
     'linode.create': ['datacenterid', 'planid', 'paymentterm'],
     'linode.delete': ['linodeid'],
     'linode.reboot': ['linodeid'],
@@ -26,7 +28,10 @@ params = {
     'linode.disk.resize': ['linodeid', 'diskid', 'size'],
     'linode.disk.update': ['linodeid', 'diskid'],
     'linode.ip.addprivate': ['linodeid'],
+    'linode.ip.addpublic': ['linodeid'],
     'linode.ip.list': ['linodeid'],
+    'linode.ip.setrdns': ['ipaddressid', 'hostname'],
+    'linode.ip.swap': ['ipaddressid'],
     'linode.job.list': ['linodeid'],
     'nodebalancer.create': ['datacenterid', 'paymentterm'],
     'nodebalancer.delete': ['nodebalancerid'],
@@ -42,5 +47,6 @@ params = {
     'stackscript.create': ['label', 'distributionidlist', 'script'],
     'stackscript.delete': ['stackscriptid'],
     'stackscript.update': ['stackscriptid'],
+    'user.getapikey': ['username', 'password'],
 }
 
