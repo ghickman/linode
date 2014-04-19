@@ -57,8 +57,8 @@ class TestApiKwargs(Base):
     def test_args_are_converted_to_kwargs(self):
         action = 'linode.boot'
         ideal_kwargs = {'api_key': self.api._api_key, 'api_action': action,
-                        'linodeid': 'herp'}
-        actual_kwargs = self.api._build_api_kwargs(action, 'herp')
+                        'linodeid': '1234'}
+        actual_kwargs = self.api._build_api_kwargs(action, '1234')
         assert actual_kwargs == ideal_kwargs
 
     def test_kwargs_are_passed_into_api_kwargs(self):
@@ -71,13 +71,13 @@ class TestApiKwargs(Base):
     def test_passing_args_when_only_optional_args_are_allowed(self):
         with warnings.catch_warnings(record=True) as w:
             with raises(TypeError):
-                self.api._build_api_kwargs('linode.list', 'herp')
+                self.api._build_api_kwargs('linode.list', '1234')
             assert len(w) == 1
             assert issubclass(w[-1].category, SyntaxWarning)
 
     def test_passing_too_many_arguments(self):
         with raises(TypeError):
-            args = ('herp', 'derp', 'foo', 'bar')
+            args = ('1234', 'derp', 'foo', 'bar')
             self.api._build_api_kwargs('linode.create', *args)
 
 
