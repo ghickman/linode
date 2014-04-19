@@ -2,7 +2,7 @@ import requests
 
 
 def get_required_params(api_url):
-    url = '{}/?api_action=api.spec'.format(api_url)
+    url = '{0}/?api_action=api.spec'.format(api_url)
     r = requests.get(url)
     if not r.ok:
         raise
