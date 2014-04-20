@@ -9,7 +9,7 @@ def get_required_params(api_url):
 
     required = {}
     for method, params in r.json()['DATA']['METHODS'].items():
-        req = [x[0].lower() for x in filter(lambda x: x[1], params['PARAMETERS'].items())]
+        req = [x[0].lower() for x in filter(lambda x: x[1]['REQUIRED'], params['PARAMETERS'].items())]
         required[method.lower()] = req
 
     return required
