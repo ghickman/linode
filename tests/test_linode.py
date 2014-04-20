@@ -68,13 +68,6 @@ class TestApiKwargs(Base):
         actual_kwargs = self.api._build_api_kwargs(action, distributionid=1)
         assert actual_kwargs == ideal_kwargs
 
-    def test_passing_args_when_only_optional_args_are_allowed(self):
-        with warnings.catch_warnings(record=True) as w:
-            with raises(TypeError):
-                self.api._build_api_kwargs('linode.list', '1234')
-            assert len(w) == 1
-            assert issubclass(w[-1].category, SyntaxWarning)
-
     def test_passing_too_many_arguments(self):
         with raises(TypeError):
             args = ('1234', 'derp', 'foo', 'bar')
