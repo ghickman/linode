@@ -37,6 +37,7 @@ class Api(object):
     def __init__(self, api_key):
         self._api_key = api_key
         self._params = get_required_params(self.endpoint)
+        self._session = requests.Session()
 
     def __getattr__(self, name):
         return Worker(self, [name])
@@ -61,7 +62,7 @@ class Api(object):
         return kwargs
 
     def _request(self, payload):
-        r = requests.post(self.endpoint, data=payload)
+        r = self._session.post(self.endpoint, data=payload)
         if r.status_code == requests.codes.ok:
             content = r.json()
             if content.get('ERRORARRAY'):
