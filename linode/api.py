@@ -1,8 +1,12 @@
+import logging
 import sys
 
 import requests
 
 from .params import get_required_params
+
+
+logger = logging.getLogger('linode.api')
 
 
 class LinodeException(Exception):
@@ -40,6 +44,10 @@ class Api(object):
     def _build_api_kwargs(self, action, *args, **kwargs):
         if args:
             required_params = list(self._params[action])
+
+            if not required_params:
+                logger.info('{0} only takes optional arguments. Non-keywords arguments '
+                            'will be ignored.'.format(action))
 
             # use the user's args to create kwargs based on the required
             # params list for the given action.
