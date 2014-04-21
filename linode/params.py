@@ -20,8 +20,10 @@ def get_required_params(api_url):
         raise
 
     required = {}
-    for method, params in r.json()['DATA']['METHODS'].items():
-        req = [x[0].lower() for x in filter(lambda x: x[1]['REQUIRED'], params['PARAMETERS'].items())]
-        required[method.lower()] = req
+    for method, options in r.json()['DATA']['METHODS'].items():
+        parameters = options['PARAMETERS'].items()
+
+        required_only = filter(lambda x: x[1]['REQUIRED'], parameters)
+        required[method.lower()] = [name.lower() for name, _ in required_only]
 
     return required
