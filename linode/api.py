@@ -1,5 +1,4 @@
 import sys
-from warnings import warn
 
 import requests
 
