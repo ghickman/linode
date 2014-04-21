@@ -39,10 +39,12 @@ class Api(object):
 
     def _build_api_kwargs(self, action, *args, **kwargs):
         if args:
-            action_required_params = list(self._params[action])
+            required_params = list(self._params[action])
+
+            # use the user's args to create kwargs based on the required
+            # params list for the given action.
             try:
-                kwargs.update(dict(
-                    [(action_required_params.pop(0), arg) for arg in args]))
+                kwargs.update(dict([(required_params.pop(0), arg) for arg in args]))
             except IndexError:
                 raise TypeError('Too many non-keyword'
                                 'arguments for {0}'.format(action))

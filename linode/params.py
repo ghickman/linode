@@ -7,6 +7,12 @@ def get_required_params(api_url):
 
     Consume the api.spec data and create a dictionary with actions as keys and
     their required parameters in a list.
+
+    For example:
+
+        {
+            'linode.create': ['foo', 'bar']
+        }
     """
     url = '{0}/?api_action=api.spec'.format(api_url)
     r = requests.get(url)
