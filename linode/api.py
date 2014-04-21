@@ -54,7 +54,7 @@ class Api(object):
             try:
                 kwargs.update(dict([(required_params.pop(0), arg) for arg in args]))
             except IndexError:
-                raise TypeError('Too many non-keyword'
+                raise TypeError('Too many non-keyword '
                                 'arguments for {0}'.format(action))
 
         kwargs.update({'api_key': self._api_key, 'api_action': action})
