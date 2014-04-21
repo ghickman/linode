@@ -1,7 +1,6 @@
 import contextlib
 import json
 import sys
-import warnings
 
 from mock import patch
 from pytest import raises
