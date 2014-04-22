@@ -79,8 +79,8 @@ class TestApi(Base):
             Api()
 
     def test_getattr_returns_worker_class(self):
-        assert type(self.api._api_key) == type(str())
-        assert type(self.api.linode) == Worker
+        assert isinstance(self.api._api_key, str)
+        assert isinstance(self.api.linode, Worker)
 
     @patch('requests.post', new=bad_post)
     def test_linode_exception_raised_when_error_returned(self):
