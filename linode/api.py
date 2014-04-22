@@ -12,7 +12,8 @@ logger = logging.getLogger('linode.api')
 class LinodeException(Exception):
     def __init__(self, action, error_array):
         for err in error_array:
-            sys.stderr.write('[{0}] {1}\n'.format(action, err.get('ERRORMESSAGE')))
+            sys.stderr.write('[{0}] {1}\n'.format(action,
+                                                err.get('ERRORMESSAGE')))
 
 
 class Worker(object):
@@ -47,13 +48,15 @@ class Api(object):
             required_params = list(self._params[action])
 
             if not required_params:
-                logger.info('{0} only takes optional arguments. Non-keywords arguments '
+                logger.info('{0} only takes optional arguments. '
+                            'Non-keywords arguments '
                             'will be ignored.'.format(action))
 
             # use the user's args to create kwargs based on the required
             # params list for the given action.
             try:
-                kwargs.update(dict([(required_params.pop(0), arg) for arg in args]))
+                kwargs.update(
+                    dict([(required_params.pop(0), arg) for arg in args]))
             except IndexError:
                 raise TypeError('Too many non-keyword '
                                 'arguments for {0}'.format(action))
@@ -66,7 +69,8 @@ class Api(object):
         if r.status_code == requests.codes.ok:
             content = r.json()
             if content.get('ERRORARRAY'):
-                raise LinodeException(content.get('ACTION'), content.get('ERRORARRAY'))
+                raise LinodeException(content.get('ACTION'),
+                                      content.get('ERRORARRAY'))
             return content.get('DATA')
 
     def _worker_func(self, path, *args, **kwargs):
@@ -74,4 +78,3 @@ class Api(object):
         action = '.'.join(path)
         api_kwargs = self._build_api_kwargs(action, *args, **kwargs)
         return self._request(api_kwargs)
-
