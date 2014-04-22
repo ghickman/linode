@@ -1,3 +1,8 @@
+execnet
 mock
+pep8
+py
 pytest
+pytest-cache
+pytest-pep8
 requests

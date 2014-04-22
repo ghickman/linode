@@ -15,7 +15,8 @@ class Post(object):
         content = {'ACTION': action, 'DATA': ''}
         self.status_code = requests.codes.ok
         if bad:
-            content['ERRORARRAY'] = [{'ERRORCODE': 4, 'ERRORMESSAGE': 'oh noes'}]
+            content['ERRORARRAY'] = [{'ERRORCODE': 4,
+                                      'ERRORMESSAGE': 'oh noes'}]
         self.content = content
 
     def json(self):
